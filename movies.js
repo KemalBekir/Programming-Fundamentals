@@ -1,0 +1,69 @@
+function movies(input) {
+    for(let text of input){
+        let movieList = {};
+
+        if(text.includes('addMovie')){
+            let name = text.replace('addMovie ',"");
+            movieList.name = name;
+            
+            for(let second of input){
+                if(second.includes(`${name} onDate`)){
+                        let date = second.replace(`${name} onDate `, "");
+                        movieList.date = date;
+                }
+
+                if(second.includes(`${name} directedBy`)){
+                    let director = second.replace(`${name} directedBy `,"");
+                    movieList.director = director;
+                }
+            }
+        }
+
+        if(Object.keys(movieList).length === 3){
+            console.log(JSON.stringify(movieList));
+        }
+    }
+}
+
+movies([
+        'addMovie Fast and Furious',
+        'addMovie Godfather',
+        'Inception directedBy Christopher Nolan',
+        'Godfather directedBy Francis Ford Coppola',
+        'Godfather onDate 29.07.2018',
+        'Fast and Furious onDate 30.07.2018',
+        'Batman onDate 01.08.2018',
+        'Fast and Furious directedBy Rob Cohen'
+]
+)
+
+
+// let movies = {};
+// for (let i = 0; i < input.length; i++) {
+//     if (input[i].includes('addMovie')) {
+//         let movieName = input[i].replace(/addMovie\s*/, '');
+//         if (!movies.hasOwnProperty(movieName)) {
+//             movies[movieName] = { name: movieName };
+//         }
+//     } else if (input[i].includes('onDate')) {
+//         let [movieName, date] = input[i].split(/\s*onDate\s*/);
+//         if (movies.hasOwnProperty(movieName)) {
+//             movies[movieName]['date'] = date;
+//         }
+//     } else if (input[i].includes('directedBy')) {
+//         let [movieName, director] = input[i].split(/\s*directedBy\s*/);
+//         if (movies.hasOwnProperty(movieName)) {
+//             movies[movieName]['director'] = director;
+//         }
+//     }
+// }
+// for (const movieName in movies) {
+//     const movie = movies[movieName];
+//     if (
+//         movie.hasOwnProperty('name') &&
+//         movie.hasOwnProperty('date') &&
+//         movie.hasOwnProperty('director')
+//     ) {
+//         console.log(JSON.stringify(movie));
+//     }
+// }
