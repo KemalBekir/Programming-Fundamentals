@@ -1,27 +1,19 @@
-function addAndSubstract(array){
-    let sum = 0;
-    let newSum = 0;
-    let list = [];
+function addAndSubstract(first,second,third){
+    let result = 0;
+    sum(first,second);
+    substract(third);
 
-    for(let i = 0; i < array.length; i++){
-        let currentNumber = array[i];
-        let newNumber = 0;
-
-        if(currentNumber % 2 === 0){
-            newNumber = currentNumber + i;
-            list.push(newNumber);
-        } else {
-            newNumber = currentNumber - i;
-            list.push(newNumber);
-        }
-        sum += currentNumber;
-        newSum += newNumber;
+    function sum(first, second){
+       return result = first + second;
     }
 
-    console.log(list);
-    console.log(sum);
-    console.log(newSum);
+    function substract(third){
+        console.log(result - third);
+    }
+
+    
 }
 
-//addAndSubstract([5, 15, 23, 56, 35])
-addAndSubstract([-5, 11, 3, 0, 2])
+addAndSubstract(23,6,10)
+addAndSubstract(1,17,30)
+addAndSubstract(42,58,100)
