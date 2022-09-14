@@ -1,32 +1,56 @@
 function inventory(input) {
-    let heroes = [];
-
-    for (let heroString of input) {
-        let tokens = heroString.split(' / ');
-        let name = tokens[0];
-        let level = Number(tokens[1]);
-        let items = tokens[2].split(", ");
-
-        let heroData = {
-            name,
-            level,
-            items,
+    //checking items in inventory
+    let collection = input.shift().split(', ');
+    let list = input.length;
+    //check for items until getting command Craft!
+    for(let i = 0; i < list; i++){
+        let index = 0;
+        let [command, material] = input[i].split(' - ');
+        // "Collect - {item}" – Receiving this command, 
+        // you should add the given item in your inventory.
+        // If the item already exists, you should skip this line.
+        if(command === "Collect"){
+           if(!collection.includes(material)){
+               collection.push(material);
+           } 
+        } else if (command === "Drop"){
+            //"Drop - {item}" – You should remove the item from your inventory, if it exists.
+            if(collection.includes(material)){
+                index = collection.indexOf(material);
+                collection.splice(index, 1);
+            }
+        } else if (command === "Combine Items"){
+            //"Combine Items - {oldItem}:{newItem}" – You should check if the old item exists, 
+            //if so, add the new item after the old one. Otherwise, ignore the command.
+            let [oldItem, newItem] = material.split(':');
+            if(collection.includes(oldItem)){
+                index = collection.indexOf(oldItem);
+                collection.splice(index + 1 , 0, newItem);
+            }
+        } else if (command === "Renew"){
+            //"Renew – {item}" – If the given item exists, 
+            //you should change its position and put it last in your inventory.
+            if(collection.includes(material)){
+                index = collection.indexOf(material);
+                collection.splice(index, 1);
+                collection.push(material);
+            }
+        } else if (command === "Craft!"){
+            //output After receiving "Craft!" print the items in your inventory, separated by ", "
+            console.log(collection.join(', '));
         }
-
-        heroes.push(heroData);
     }
-
-    let sorted = heroes.sort((a, b) => a.level - b.level);
-    for (let hero of sorted) {
-        console.log(`Hero: ${hero.name}`);
-        console.log(`level => ${hero.level}`);
-        console.log(`items => ${hero.items.sort((a, b) => a.localeCompare(b)).join(', ')}`);
-    }
-
+    
 }
 
 inventory([
-    "Isacc / 25 / Apple, GravityGun",
-    "Derek / 12 / BarrelVest, DestructionSword",
-    "Hes / 1 / Desolator, Sentinel, Antara"
+    'Iron, Wood, Sword',
+    'Collect - Gold', 'Drop - Wood',
+    'Craft!'])
+inventory([
+    'Iron, Sword',
+    'Drop - Bronze',
+    'Combine Items - Sword:Bow',
+    'Renew - Iron',
+    'Craft!'
 ])
